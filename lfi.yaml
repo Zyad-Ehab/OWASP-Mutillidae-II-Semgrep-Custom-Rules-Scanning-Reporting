@@ -1,0 +1,22 @@
+rules:
+  - id: possible-lfi
+    message: "Possible Local File Inclusion (LFI): untrusted input used in file include"
+    severity: ERROR
+    languages: [php]
+
+    patterns:
+      - pattern-either:
+          - pattern: include($VAR);
+          - pattern: require($VAR);
+          - pattern: include_once($VAR);
+          - pattern: require_once($VAR);
+
+      - pattern-either:
+          - pattern: $VAR = $_GET[...];
+          - pattern: $VAR = $_POST[...];
+          - pattern: $VAR = $_REQUEST[...];
+
+    metadata:
+      cwe: "CWE-98"
+      owasp: "A05: Security Misconfiguration"
+      category: security

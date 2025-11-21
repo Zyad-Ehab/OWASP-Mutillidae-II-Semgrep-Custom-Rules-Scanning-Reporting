@@ -1,0 +1,18 @@
+rules:
+  - id: possible-xss
+    message: "Possible XSS: untrusted input echoed to the page"
+    severity: ERROR
+    languages: [php]
+
+    patterns:
+      - pattern-either:
+          - pattern: echo $GET_VAR;
+          - pattern: echo $_GET[...] ;
+          - pattern: echo $_POST[...] ;
+          - pattern: echo $REQUEST_VAR;
+          - pattern: echo $_REQUEST[...] ;
+
+    metadata:
+      cwe: "CWE-79"
+      owasp: "A03: Injection"
+      category: security
